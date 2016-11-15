@@ -15,6 +15,10 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    Thread.h \
+    Process.h \
+    Planner.h \
+    TyDefFunc.h
 
-FORMS    += mainwindow.ui
+FORMS    +=
