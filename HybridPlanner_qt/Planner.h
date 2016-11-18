@@ -8,14 +8,15 @@ class Planner
 {
     private:
         T quantum;
+        T quantum_io;
         T cs;
         vector<Process<T> *> processes;
-        void creationProcesses(int, int);
+        void creationProcesses(int, int th = 0);
         vector<Process<T> *> creationThreads(Process<T> *, int);
         void initializeValues(bool, T, T);
     public:
-        Planner(int, int, bool, T, T);
-        Planner(int, int, int, bool, T, T);
+        Planner(int, int, bool, T qt = 0, T cs = 0);
+        Planner(int, int, int, bool, T qt = 0, T cs = 0);
         void print();
 };
 
@@ -23,7 +24,7 @@ class Planner
  * Initializes with a random number of processes between "start" and "end" inclusive
  */
 template<class T>
-Planner<T> :: Planner(int start, int end, bool isRnd, T qt = 0, T cs = 0)
+Planner<T> :: Planner(int start, int end, bool isRnd, T qt, T cs)
 {
     srand (time(NULL));
     int nProcess = randomNumber(start, end);
@@ -37,7 +38,7 @@ Planner<T> :: Planner(int start, int end, bool isRnd, T qt = 0, T cs = 0)
  * and a random quantity of up to "t" threads for each process
 */
 template<class T>
-Planner<T> :: Planner(int start, int end, int t, bool isRnd, T qt = 0, T cs = 0)
+Planner<T> :: Planner(int start, int end, int t, bool isRnd, T qt, T cs)
 {
     srand (time(NULL));
     int nProcess = randomNumber(start, end);
@@ -49,7 +50,7 @@ Planner<T> :: Planner(int start, int end, int t, bool isRnd, T qt = 0, T cs = 0)
 template<class T>
 void Planner<T> :: print()
 {
-    qDebug() << this->quantum << " - " << this->cs;
+    qDebug() << this->quantum << " - " << this->cs << " - " << this->quantum_io;
     for (int i = 0; i < this->processes.size(); ++i)
         this->processes[i]->print();
 }
@@ -64,10 +65,11 @@ void Planner<T> :: initializeValues(bool isRnd, T qt, T cs)
         this->quantum = qt;
         this->cs = cs;
     }
+    this->quantum_io = randomNumber(BEGIN_QUANTUM, END_QUANTUM);
 }
 
 template<class T>
-void Planner<T> :: creationProcesses(int pr, int th = 0)
+void Planner<T> :: creationProcesses(int pr, int th)
 {
     Process<T> *process;
     vector<Process<T> *> threads;

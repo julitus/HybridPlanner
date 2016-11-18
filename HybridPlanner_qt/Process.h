@@ -13,7 +13,7 @@ class Process
         Process<T> *creator;
         vector<Process<T> *> threads;
     public:
-        Process(T, Series &, Process<T> *);
+        Process(T, Series &, Process<T> * creator = 0);
         void setThreads(vector<Process<T> *> &);
         char getType();
         Process<T> * getPattern();
@@ -21,7 +21,7 @@ class Process
 };
 
 template<class T>
-Process<T> :: Process(T start, Series &blast, Process<T> * creator = 0)
+Process<T> :: Process(T start, Series &blast, Process<T> * creator)
 {
     this->type = PRO;
     this->start_time = start;
