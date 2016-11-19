@@ -6,6 +6,7 @@
 template <class T>
 class Process
 {
+    //prueba1
     protected:
         char type;
         Series blast;
