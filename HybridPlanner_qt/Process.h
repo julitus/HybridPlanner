@@ -8,14 +8,15 @@ class Process
 {
     protected:
         char type;
-        Series blast;
         T start_time;
         Process<T> *creator;
-        vector<Process<T> *> threads;
+        list<Process<T> *> threads;
     public:
+        Series blast;
         Process(T, Series &, Process<T> * creator = 0);
-        void setThreads(vector<Process<T> *> &);
+        void setThreads(list<Process<T> *> &);
         char getType();
+        T getStartTime();
         Process<T> * getPattern();
         virtual void print();
 };
@@ -30,7 +31,7 @@ Process<T> :: Process(T start, Series &blast, Process<T> * creator)
 }
 
 template<class T>
-void Process<T> :: setThreads(vector<Process<T> *> &threads)
+void Process<T> :: setThreads(list<Process<T> *> &threads)
 {
     this->threads = threads;
 }
@@ -39,6 +40,12 @@ template<class T>
 char Process<T> :: getType()
 {
     return this->type;
+}
+
+template<class T>
+T Process<T> :: getStartTime()
+{
+    return this->start_time;
 }
 
 template<class T>
@@ -52,13 +59,16 @@ void Process<T> :: print()
 {
     qDebug() << this->type << " - " << this->creator;
     QString str = "";
-    for (int i = 0; i < this->blast.size(); i++) {
-        if (i > 0) str += ", ";
-        str += QString::number(this->blast[i]);
+
+    for (Series::iterator it = this->blast.begin(); it != this->blast.end(); ++it){
+        if (it != this->blast.begin()) str += ", ";
+        str += QString::number(*it);
     }
+
     qDebug() << this->start_time << " - " << str;
-    for (int i = 0; i < this->threads.size(); ++i)
-        this->threads[i]->print();
+    for (typename list<Process<T> *>::iterator it = this->threads.begin(); it != this->threads.end(); ++it)
+        (*it)->print();
+
     qDebug() << '\n';
 }
 

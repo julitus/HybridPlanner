@@ -13,12 +13,15 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    Algs.cpp \
+    TyDefFunc.cpp
 
 HEADERS  += mainwindow.h \
     Thread.h \
     Process.h \
     Planner.h \
-    TyDefFunc.h
+    TyDefFunc.h \
+    Algs.h
 
 FORMS    +=

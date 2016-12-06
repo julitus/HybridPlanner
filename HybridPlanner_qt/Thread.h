@@ -21,13 +21,15 @@ template<class T>
 void Thread<T> :: print()
 {
     QString str = "";
-    for (int i = 0; i < this->blast.size(); i++) {
-        if (i > 0) str += ", ";
-        str += QString::number(this->blast[i]);
+
+    for (Series::iterator it = this->blast.begin(); it != this->blast.end(); ++it){
+        if (it != this->blast.begin()) str += ", ";
+        str += QString::number(*it);
     }
     qDebug() << this->type << " - " << this->creator << " - " << this->start_time << " - " << str;
-    for (int i = 0; i < this->threads.size(); ++i)
-        this->threads[i]->print();
+
+    for (typename list<Process<T> *>::iterator it = this->threads.begin(); it != this->threads.end(); ++it)
+        (*it)->print();
 }
 
 #endif // THREAD_H
